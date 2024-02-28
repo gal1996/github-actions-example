@@ -13,7 +13,9 @@ jobs:
           - name: checkout
             uses: actions/checkout@v3
             with:
-              ref: '${{ github.event.pull_request.base.sha }}'
+              ref: '${{ github.event.pull_request.head.sha }}'
+          - name: Fetch base branch
+            run: git fetch origin main
           - name: diff
             run: |
               diff_files=$(git diff --name-only HEAD main)
