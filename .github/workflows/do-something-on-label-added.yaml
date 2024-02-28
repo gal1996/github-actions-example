@@ -8,4 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: echo
+<<<<<<< Updated upstream
         run: echo "${{ github.event.payload.sender.id }}"
+=======
+        run: echo "$SENDER"
+        env:
+          SENDER: ${{ github.event.sender.id }}
+>>>>>>> Stashed changes
