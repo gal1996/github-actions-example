@@ -25,7 +25,7 @@ jobs:
               echo "diff=${diff_files}" >> "$GITHUB_OUTPUT"
           - name: echo
             run: |
-              echo "${{ steps.set-diff.outputs.diff }}"
+              echo "${{ steps.set_diff.outputs.diff }}"
           - name: add_label
             run: gh pr edit ${{ github.event.number }} --add-label "enhancement"
             env:
