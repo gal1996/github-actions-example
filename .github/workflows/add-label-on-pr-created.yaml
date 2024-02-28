@@ -2,7 +2,7 @@ name: add-label-on-pr-created
 
 on:
   pull_request:
-    types: [opened]
+    types: [opened, synchronize]
 
 jobs:
     add_label:
@@ -13,14 +13,22 @@ jobs:
           - name: checkout
             uses: actions/checkout@v3
             with:
-              ref: '${{ github.event.pull_request.base.sha }}'
-          - name: echo diff
+              ref: '${{ github.event.pull_request.head.sha }}'
+          - name: Fetch base branch
+            run: git fetch origin main:main
+          - id: set_diff
+            name: diff
             run: |
-              git diff --diff-filter=AM --name-only \
-                ${{ github.event.pull_request.base.sha }}.. | echo
+              diff_files=$(git diff --name-only HEAD main -- . \
+                | tr "\n" " ")
+              echo "diff=${diff_files}"
+              echo "diff=${diff_files}" >> "$GITHUB_OUTPUT"
+          - name: echo
+            run: |
+              echo "${{ steps.set_diff.outputs.diff }}"
           - name: add_label
+            if: contains(steps.set_diff.outputs.diff, 'test_dir/test_file') || contains(steps.set_diff.outputs.diff, 'fuga')
             run: gh pr edit ${{ github.event.number }} --add-label "enhancement"
             env:
               GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               GH_REPO: ${{ github.repository }}
-
