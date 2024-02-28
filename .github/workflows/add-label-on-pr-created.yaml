@@ -1,0 +1,16 @@
+name: add-label-on-pr-created
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+    add_label:
+        runs-on: ubuntu-latest
+        permissions:
+          pull-requests: write
+        steps:
+          - run: gh pr edit ${{ github.event.number }} --add-label "enhancement"
+            env:
+              GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              GH_REPO: ${{ github.repository }}
