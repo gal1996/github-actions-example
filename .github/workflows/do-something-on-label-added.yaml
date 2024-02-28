@@ -1,0 +1,13 @@
+name: echo on label added
+on:
+  pull_request:
+    types: [labeled]
+
+jobs:
+  add-comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo
+        run: echo "$SENDER"
+        env:
+          SENDER: ${{ github.event.payload.sender.id }}
