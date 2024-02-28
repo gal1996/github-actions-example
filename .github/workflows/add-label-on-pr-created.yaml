@@ -18,7 +18,8 @@ jobs:
             run: git fetch origin main:main
           - name: diff
             run: |
-              diff_files=$(git diff --name-only HEAD main -- .)
+              diff_files=$(git diff --name-only HEAD main -- .
+                | tr "\n" " ")
               echo "diff=$diff_files" >> "$GITHUB_OUTPUT"
           - name: echo
             run: |
