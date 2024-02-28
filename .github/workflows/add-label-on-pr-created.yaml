@@ -27,7 +27,7 @@ jobs:
             run: |
               echo "${{ steps.set_diff.outputs.diff }}"
           - name: add_label
-            if: contains(steps.set_diff.outputs.diff, 'hoge') || contains(steps.set_diff.outputs.diff, 'fuga')
+            if: contains(steps.set_diff.outputs.diff, 'test_file') || contains(steps.set_diff.outputs.diff, 'fuga')
             run: gh pr edit ${{ github.event.number }} --add-label "enhancement"
             env:
               GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
