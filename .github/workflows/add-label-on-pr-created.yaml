@@ -10,7 +10,17 @@ jobs:
         permissions:
           pull-requests: write
         steps:
-          - run: gh pr edit ${{ github.event.number }} --add-label "enhancement"
+          - name: checkout
+            uses: actions/checkout@v3
+            with:
+              ref: '${{ github.event.pull_request.base.sha }}'
+          - name: echo diff
+            run: |
+              git diff --diff-filter=AM --name-only \
+                ${{ github.event.pull_request.base.sha }}.. | echo
+          - name: add_label
+            run: gh pr edit ${{ github.event.number }} --add-label "enhancement"
             env:
               GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               GH_REPO: ${{ github.repository }}
+
