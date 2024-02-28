@@ -19,7 +19,7 @@ jobs:
           - name: diff
             run: |
               diff_files=$(git diff --name-only HEAD main -- .)
-              echo "diff=${diff_files}" >> "$GITHUB_OUTPUT"
+              echo "diff=$diff_files" >> "$GITHUB_OUTPUT"
           - name: echo
             run: |
               echo "diff: ${{ steps.diff.outputs.diff }})"
