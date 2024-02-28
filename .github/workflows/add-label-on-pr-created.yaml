@@ -17,7 +17,7 @@ jobs:
           - name: echo diff
             run: |
               git diff --diff-filter=AM --name-only \
-                ${{ github.event.pull_request.base.sha }}.. | echo
+                ${{ github.event.pull_request.base.sha }}..
           - name: add_label
             run: gh pr edit ${{ github.event.number }} --add-label "enhancement"
             env:
