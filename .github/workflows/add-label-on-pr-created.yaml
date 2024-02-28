@@ -14,11 +14,14 @@ jobs:
             uses: actions/checkout@v3
             with:
               ref: '${{ github.event.pull_request.base.sha }}'
-          - name: echo diff
+          - name: diff
             run: |
               git diff --diff-filter=AM --name-only \
-                ${{ github.event.pull_request.base.sha }}.. > ./updated
-              cat ./updated
+                ${{ github.event.pull_request.base.sha }}.. >> ./updated
+              echo "diff=$(cat ./updated)" >> "$GITHUB_OUTPUT"
+          - name: echo
+            run: |
+              echo "diff: ${{ steps.diff.outputs.diff}})"
           - name: add_label
             run: gh pr edit ${{ github.event.number }} --add-label "enhancement"
             env:
