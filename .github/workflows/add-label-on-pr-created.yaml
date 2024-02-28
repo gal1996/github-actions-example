@@ -16,8 +16,7 @@ jobs:
               ref: '${{ github.event.pull_request.base.sha }}'
           - name: diff
             run: |
-              diff_files=$(git diff --name-only HEAD main -- "${diff_path}" \
-                | tr "\n" " ")
+              diff_files=$(git diff --name-only HEAD main)
               echo "# diff_files: ${diff_files}"
           - name: echo
             run: |
