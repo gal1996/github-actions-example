@@ -18,7 +18,7 @@ jobs:
             with:
               ref: '${{ github.event.pull_request.head.sha }}'
           - name: Fetch base branch
-            run: git fetch origin main
+            run: git fetch origin ${base_branch}:${base_branch}
           - name: diff
             run: |
               diff_files=$(git diff --name-only HEAD ${base_branch} -- .)
