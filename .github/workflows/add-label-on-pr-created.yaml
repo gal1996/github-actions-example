@@ -4,9 +4,6 @@ on:
   pull_request:
     types: [opened, synchronize]
 
-env:
-  base_branch: main
-
 jobs:
     add_label:
         runs-on: ubuntu-latest
@@ -18,10 +15,10 @@ jobs:
             with:
               ref: '${{ github.event.pull_request.head.sha }}'
           - name: Fetch base branch
-            run: git fetch origin ${base_branch}:${base_branch}
+            run: git fetch origin main:main
           - name: diff
             run: |
-              diff_files=$(git diff --name-only HEAD ${base_branch} -- .)
+              diff_files=$(git diff --name-only HEAD main -- .)
               echo "# diff_files: ${diff_files}"
           - name: echo
             run: |
