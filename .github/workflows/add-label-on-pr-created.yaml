@@ -19,10 +19,10 @@ jobs:
           - name: diff
             run: |
               diff_files=$(git diff --name-only HEAD main -- .)
-              echo "# diff_files: ${diff_files}"
+              echo "diff=${diff_files}" >> "$GITHUB_OUTPUT"
           - name: echo
             run: |
-              echo "diff: ${{ steps.diff.outputs.diff}})"
+              echo "diff: ${{ steps.diff.outputs.diff }})"
           - name: add_label
             run: gh pr edit ${{ github.event.number }} --add-label "enhancement"
             env:
