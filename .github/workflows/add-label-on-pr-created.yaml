@@ -16,9 +16,9 @@ jobs:
               ref: '${{ github.event.pull_request.base.sha }}'
           - name: diff
             run: |
-              git diff --diff-filter=AM --name-only \
-                ${{ github.event.pull_request.base.sha }}.. >> ./updated
-              echo "diff=$(cat ./updated)" >> "$GITHUB_OUTPUT"
+              diff=$(git diff --diff-filter=AM --name-only \
+                ${{ github.event.pull_request.base.sha }}..)
+              echo "diff=${diff}"
           - name: echo
             run: |
               echo "diff: ${{ steps.diff.outputs.diff}})"
