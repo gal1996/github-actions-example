@@ -8,6 +8,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: echo
-        run: echo "$SENDER"
-        env:
-          SENDER: ${{ github.event.payload.sender.id }}
+        run: echo "${{ github.event.payload.sender.id }}"
