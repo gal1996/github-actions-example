@@ -27,8 +27,13 @@ jobs:
             run: |
               echo "${{ steps.set_diff.outputs.diff }}"
           - name: echo_committer
-            run: |
-              echo "${{ github.event.commits[0].author.name }}"
+            uses: dguo/check-author-and-committer-action@v1
+            with:
+              github-token: ${{ secrets.GITHUB_TOKEN }}
+              author-name-regex: 'gal1996'
+              custom-error-message: 'invalid auto merge author'
+          - name: echo_success
+            run: echo "success"
           - name: add_label
             if: contains(steps.set_diff.outputs.diff, 'test_dir/test_file') || contains(steps.set_diff.outputs.diff, 'fuga')
             run: gh pr edit ${{ github.event.number }} --add-label "enhancement"
