@@ -34,7 +34,7 @@ jobs:
           - name: echo_committer
             run: echo "${{ github.event.pull_request.head.user.login }}"
           - name: check_diff
-            if: contains(fromJson(env.targets), ${{ steps.set_diff.outputs.diff }})
+            if: contains(fromJson(${{ env.targets }}), ${{ steps.set_diff.outputs.diff }})
             run: echo "diff check success"
           - name: add_label
             if: contains(steps.set_diff.outputs.diff, 'test_dir/test_file') || contains(steps.set_diff.outputs.diff, 'fuga')
