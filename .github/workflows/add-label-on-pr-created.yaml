@@ -6,7 +6,6 @@ on:
 
 env:
   targets: '[
-  "test_dir/test_file",
   "fuga"
   ]'
 
