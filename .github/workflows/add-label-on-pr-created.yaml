@@ -26,6 +26,9 @@ jobs:
           - name: echo
             run: |
               echo "${{ steps.set_diff.outputs.diff }}"
+          - name: echo_committer
+            run: |
+              echo "${{ github.event.commits[0].author.name }}"
           - name: add_label
             if: contains(steps.set_diff.outputs.diff, 'test_dir/test_file') || contains(steps.set_diff.outputs.diff, 'fuga')
             run: gh pr edit ${{ github.event.number }} --add-label "enhancement"
