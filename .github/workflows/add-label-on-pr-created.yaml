@@ -5,7 +5,10 @@ on:
     types: [opened, synchronize]
 
 env:
-  targets: '["test_dir/test_file","fuga"]'
+  targets: '[
+  "test_dir/test_file",
+  "fuga"
+  ]'
 
 jobs:
     add_label:
