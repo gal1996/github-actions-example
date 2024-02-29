@@ -6,8 +6,10 @@ on:
 
 env:
   targets: |
-    test_dir/test_file
-    fuga
+    [
+    "test_dir/test_file",
+    "fuga"
+    ]
 
 jobs:
     add_label:
