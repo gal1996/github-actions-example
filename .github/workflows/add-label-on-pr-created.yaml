@@ -3,7 +3,6 @@ name: add-label-on-pr-created
 on:
   pull_request:
     types: [opened, synchronize]
-
 env:
     targets: |
       [
@@ -26,12 +25,12 @@ jobs:
             name: diff
             run: |
               diff_files=$(git diff --name-only HEAD main -- . \
-                | tr "\n" " ")
+                | tr "\n" ", ")
               echo "diff=${diff_files}"
               echo "diff=${diff_files}" >> "$GITHUB_OUTPUT"
           - name: echo
             run: |
-              echo "${{ steps.set_diff.outputs.diff }}"
+              echo "[${{ steps.set_diff.outputs.diff }}]"
           - name: echo_committer
             run: echo "${{ github.event.pull_request.head.user.login }}"
           - name: check_diff
