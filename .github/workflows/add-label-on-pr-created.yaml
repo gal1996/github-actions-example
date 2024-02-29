@@ -27,11 +27,7 @@ jobs:
             run: |
               echo "${{ steps.set_diff.outputs.diff }}"
           - name: echo_committer
-            uses: dguo/check-author-and-committer-action@v1
-            with:
-              github-token: ${{ secrets.GITHUB_TOKEN }}
-              author-name-regex: 'gal1996'
-              custom-error-message: 'invalid auto merge author'
+            run: echo "${{ github.event.pull_request.head.user.login }}"
           - name: echo_success
             run: echo "success"
           - name: add_label
