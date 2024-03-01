@@ -5,10 +5,8 @@ on:
     types: [opened, synchronize]
 env:
     targets: |
-      [
-      "test_dir/test_file",
-      "fuga"
-      ]
+        test_dir/**
+
 jobs:
     get_diff:
         runs-on: ubuntu-latest
@@ -33,19 +31,13 @@ jobs:
               echo "${{ steps.set_diff.outputs.diff }}"
           - name: echo_committer
             run: echo "${{ github.event.pull_request.head.user.login }}"
-    check_diff_and_add_label:
-      needs: add_label
-      runs-on: ubuntu-latest
-      strategy:
-        matrix:
-          item: ${{ fromJson( env.targets ) }}
-      steps:
-        - name: check_diff_elem
-          if: contains(${{ steps.set_diff.outputs.diff }}, ${{ matrix.item }})
-          run: echo "diff check success"
-#        - name: add_label
-#          if: contains(steps.set_diff.outputs.diff, 'test_dir/test_file') || contains(steps.set_diff.outputs.diff, 'fuga')
-#          run: gh pr edit ${{ github.event.number }} --add-label "enhancement"
-#          env:
-#            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#            GH_REPO: ${{ github.repository }}
+          - name: get_diff
+            uses: technote-space/get-diff-action@v6
+            with:
+              PATTERNS: ${{ env.targets }}
+          - name: add_label
+            run: gh pr edit ${{ github.event.number }} --add-label "enhancement"
+            env:
+              GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              GH_REPO: ${{ github.repository }}
+            if: env.GIT_DIFF_FILTERED
