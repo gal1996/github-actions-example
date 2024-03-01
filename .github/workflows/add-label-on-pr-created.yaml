@@ -3,9 +3,13 @@ name: add-label-on-pr-created
 on:
   pull_request:
     types: [opened, synchronize]
+env:
+    targets: |
+      hoge/**  
+      *.test
 
 jobs:
-    add_label:
+    get_diff:
         runs-on: ubuntu-latest
         permissions:
           pull-requests: write
@@ -26,9 +30,16 @@ jobs:
           - name: echo
             run: |
               echo "${{ steps.set_diff.outputs.diff }}"
+          - name: echo_committer
+            run: echo "${{ github.event.pull_request.head.user.login }}"
+          - id: get_diff
+            name: get_diff
+            uses: tj-actions/changed-files@v42
+            with:
+              files: ${{ env.targets }}
           - name: add_label
-            if: contains(steps.set_diff.outputs.diff, 'test_dir/test_file') || contains(steps.set_diff.outputs.diff, 'fuga')
             run: gh pr edit ${{ github.event.number }} --add-label "enhancement"
             env:
               GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               GH_REPO: ${{ github.repository }}
+            if: steps.get_diff.outputs.all_changed_files
