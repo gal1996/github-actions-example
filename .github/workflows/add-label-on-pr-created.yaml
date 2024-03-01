@@ -38,7 +38,7 @@ jobs:
       runs-on: ubuntu-latest
       strategy:
         matrix:
-          item: ${{ fromJson(${{ env.targets }}) }}
+          item: ${{ fromJson( env.targets ) }}
       steps:
         - name: check_diff_elem
           if: contains(${{ steps.set_diff.outputs.diff }}, ${{ matrix.item }})
