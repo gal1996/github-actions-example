@@ -5,7 +5,9 @@ on:
     types: [opened, synchronize]
 env:
     targets: |
-      hoge
+      test_dir/**
+      hoge/**  
+      *.test
 
 jobs:
     get_diff:
@@ -31,13 +33,14 @@ jobs:
               echo "${{ steps.set_diff.outputs.diff }}"
           - name: echo_committer
             run: echo "${{ github.event.pull_request.head.user.login }}"
-          - name: get_diff
-            uses: technote-space/get-diff-action@v6
+          - id: get_diff
+            name: get_diff
+            uses: tj-actions/changed-files@v42
             with:
-              PATTERNS: ${{ env.targets }}
+              files: ${{ env.targets }}
           - name: add_label
             run: gh pr edit ${{ github.event.number }} --add-label "enhancement"
             env:
               GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               GH_REPO: ${{ github.repository }}
-            if: env.GIT_DIFF_FILTERED
+            if: steps.get_diff.outputs.all_changed_files
