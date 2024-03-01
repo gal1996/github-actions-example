@@ -5,7 +5,7 @@ on:
     types: [opened, synchronize]
 env:
     targets: |
-        test_dir/**
+      hoge
 
 jobs:
     get_diff:
